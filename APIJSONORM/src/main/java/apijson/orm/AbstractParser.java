@@ -703,7 +703,11 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 
 		object.put(JSONResponse.KEY_MSG, msg);
 		if (debug != null) {
-			object.put("debug:info|help", debug);
+			/**
+			 * modify by gouchy chen
+			 * 去掉无用的提示
+			 */
+			// object.put("debug:info|help", debug);
 		}
 
 		return object;
@@ -2251,7 +2255,7 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new Exception(e);
+				throw e;
 			}
 		}
 

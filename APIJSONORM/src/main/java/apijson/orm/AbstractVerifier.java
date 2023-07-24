@@ -954,7 +954,18 @@ public abstract class AbstractVerifier<T extends Object> implements Verifier<T>,
 					continue;
 				}
                 Object tvalue = entry.getValue();
+				/**
+				 * modify by gouchy chen
+				 * 在允许了GET进行校验后，就会遇到GET运发中的 [] ，此处需要对GET请求做特殊的处理
+				 */
                 Object rvalue = real.get(key);
+				if(rvalue == null && method == RequestMethod.GET) {
+					rvalue = real.get(key + "[]");
+					if(rvalue != null && (rvalue instanceof JSONObject)) {
+						rvalue = ((JSONObject)rvalue).get(key);
+					}
+				}
+
 				if (callback.onParse(key, tvalue, rvalue) == false) {
 					continue;
 				}
@@ -980,7 +991,16 @@ public abstract class AbstractVerifier<T extends Object> implements Verifier<T>,
 				}
 
 				if (tvalue != null) { // 可以在target中加上一些不需要客户端传的键值对
-					real.put(key, tvalue);
+					/**
+					 * modify by gouchy chen
+					 */
+					if(method == RequestMethod.GET && real.containsKey(key + "[]")) {
+						JSONObject modifyReal = (JSONObject) real.get(key + "[]");
+						modifyReal.put(key, tvalue);
+						real.put( key + "[]", modifyReal);
+					} else {
+						real.put(key, tvalue);
+					}
 				}
 			}
 
@@ -1072,6 +1092,14 @@ public abstract class AbstractVerifier<T extends Object> implements Verifier<T>,
                         "非开放请求不允许传远程函数 key():\"fun()\" ！");
 			}
 
+			/**
+			 * modify by gouchy chen
+			 * 允许GET请求的[] 放行
+			 */
+			if (rk.endsWith("[]")) {
+				continue;
+			}
+
 			// 不在target内的 key:{}
 			if (rk.startsWith("@") == false && rk.endsWith("@") == false && objKeySet.contains(rk) == false) {
 				if (rv instanceof JSONObject) {
@@ -1088,15 +1116,29 @@ public abstract class AbstractVerifier<T extends Object> implements Verifier<T>,
 		// 判断不允许传的key>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
+		/**
+		 * modify by gouchy chen
+		 * 如果是GET类的请求，那就需要再处理的时候，考虑到[] 的特殊性
+		 */
 
-		// 校验与修改Request<<<<<<<<<<<<<<<<<
-		// 在tableKeySet校验后操作，避免 导致put/add进去的Table 被当成原Request的内容
-		real = operate(TYPE, type, real, creator);
-		real = operate(VERIFY, verify, real, creator);
-		real = operate(INSERT, insert, real, creator);
-		real = operate(UPDATE, update, real, creator);
-		real = operate(REPLACE, replace, real, creator);
-		// 校验与修改Request>>>>>>>>>>>>>>>>>
+		if(method == RequestMethod.GET && real.containsKey(name + "[]")) {
+			JSONObject modifyReal = real.getJSONObject(name + "[]");
+			modifyReal = operate(TYPE, type, modifyReal, creator);
+			modifyReal = operate(VERIFY, verify, modifyReal, creator);
+			modifyReal = operate(INSERT, insert, modifyReal, creator);
+			modifyReal = operate(UPDATE, update, modifyReal, creator);
+			modifyReal = operate(REPLACE, replace, modifyReal, creator);
+			real.put(name + "[]", modifyReal);
+		} else {
+			// 校验与修改Request<<<<<<<<<<<<<<<<<
+			// 在tableKeySet校验后操作，避免 导致put/add进去的Table 被当成原Request的内容
+			real = operate(TYPE, type, real, creator);
+			real = operate(VERIFY, verify, real, creator);
+			real = operate(INSERT, insert, real, creator);
+			real = operate(UPDATE, update, real, creator);
+			real = operate(REPLACE, replace, real, creator);
+			// 校验与修改Request>>>>>>>>>>>>>>>>>
+		}
 
 
 		String db = real.getString(apijson.JSONObject.KEY_DATABASE);

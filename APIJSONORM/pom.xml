@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.Tencent</groupId>
+	<groupId>com.github.gouchy</groupId>
 	<artifactId>APIJSON</artifactId>
-	<version>6.1.0</version>
+	<version>6.1.0_1</version>
 	<packaging>jar</packaging>
 
 	<name>APIJSONORM</name>

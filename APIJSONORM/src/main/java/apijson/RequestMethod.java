@@ -84,7 +84,7 @@ public enum RequestMethod {
 	 */
 	public static boolean isPublicMethod(RequestMethod method) {
 		/**
-		 * modify by boot
+		 * modify by gouchy chen
 		 * 修改所有方法都需要进行request验证
 		 */
 		return method == null /*|| method == GET || method == HEAD*/;
