@@ -240,7 +240,7 @@ public abstract class AbstractSQLExecutor implements SQLExecutor {
 					}
 
 					if (updateCount <= 0) {
-						throw new IllegalAccessException("没权限访问或对象不存在！");  // NotExistException 会被 catch 转为成功状态
+						throw new IllegalAccessException("无法获取到对象或者对象数据未更改！");  // NotExistException 会被 catch 转为成功状态
 					}
 
 					// updateCount>0时收集结果。例如更新操作成功时，返回count(affected rows)、id字段

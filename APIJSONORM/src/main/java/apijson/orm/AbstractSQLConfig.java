@@ -4901,8 +4901,12 @@ public abstract class AbstractSQLConfig implements SQLConfig {
 			//强制作为条件且放在最前面优化性能
 			request.remove(idKey);
 			request.remove(idInKey);
-			request.remove(userIdKey);
-			request.remove(userIdInKey);
+			/**
+			 * modify by gouchy chen
+			 * 不删除相应的字段
+			 */
+			//request.remove(userIdKey);
+			//request.remove(userIdInKey);
 			//关键词
 			request.remove(KEY_ROLE);
 			request.remove(KEY_EXPLAIN);
@@ -5088,11 +5092,11 @@ public abstract class AbstractSQLConfig implements SQLConfig {
 				}
 				
 				if (StringUtil.isNotEmpty(combineExpr, true)) {
-					List<String> banKeyList = Arrays.asList(idKey, idInKey, userIdKey, userIdInKey);
+					List<String> banKeyList = Arrays.asList(idKey, idInKey);
 					for (String key : banKeyList) {
 						if(keyInCombineExpr(combineExpr, key)) {
 							throw new UnsupportedOperationException(table + ":{} 里的 @combine:value 中的 value 里 " + key + " 不合法！"
-									+ "不允许传 [" + idKey + ", " + idInKey + ", " + userIdKey + ", " + userIdInKey + "] 其中任何一个！");
+									+ "不允许传 [" + idKey + ", " + idInKey + "] 其中任何一个！");
 						}
 					}
 				}
@@ -5128,9 +5132,9 @@ public abstract class AbstractSQLConfig implements SQLConfig {
 								throw new IllegalArgumentException(table + ":{} 里的 @combine:value 中的value里条件 " + ws[i] + " 不合法！不允许为空值！");
 							}
 							else {
-								if (idKey.equals(w) || idInKey.equals(w) || userIdKey.equals(w) || userIdInKey.equals(w)) {
+								if (idKey.equals(w) || idInKey.equals(w)) {
 									throw new UnsupportedOperationException(table + ":{} 里的 @combine:value 中的 value 里 " + ws[i] + " 不合法！"
-											+ "不允许传 [" + idKey + ", " + idInKey + ", " + userIdKey + ", " + userIdInKey + "] 其中任何一个！");
+											+ "不允许传 [" + idKey + ", " + idInKey + "] 其中任何一个！");
 								}
 							}
 
