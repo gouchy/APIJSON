@@ -4791,7 +4791,9 @@ public abstract class AbstractSQLConfig implements SQLConfig {
 		}
 
 		Object id = request.get(idKey);
-		if (id == null && method == POST) {
+		if (id == null) {
+			;
+		}else if( id != null && method == POST) {
 			id = callback.newId(method, database, schema, datasource, table); // null 表示数据库自增 id
 		}
 

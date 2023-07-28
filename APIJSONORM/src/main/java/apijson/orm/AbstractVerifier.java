@@ -930,7 +930,11 @@ public abstract class AbstractVerifier<T extends Object> implements Verifier<T>,
 
 		if (musts != null && musts.length > 0) {
 			for (String s : musts) {
-				if (real.get(s) == null && real.get(s+"@") == null) {  // 可能传null进来，这里还会通过 real.containsKey(s) == false) {
+				/**
+				 * modify by gouchy chen
+				 * 批量处理的时候，允许传{}
+				 */
+				if (real.get(s) == null && real.get(s+"@") == null && real.get(s+"{}") == null) {  // 可能传null进来，这里还会通过 real.containsKey(s) == false) {
 					throw new IllegalArgumentException(method + "请求，"
                             + name + " 里面不能缺少 " + s + " 等[" + must + "]内的任何字段！");
 				}
