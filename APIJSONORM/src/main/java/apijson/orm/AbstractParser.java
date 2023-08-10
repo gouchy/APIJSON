@@ -1232,7 +1232,7 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 
 			//key[]:{Table:{}}中key equals Table时 提取Table
 			int index = isSubquery || name == null ? -1 : name.lastIndexOf("[]");
-			String childPath = index <= 0 ? null : Pair.parseEntry(name.substring(0, index), true).getKey(); // Table-key1-key2...
+			String childPath = index <= 0 ? null : Pair.parseEntry(name.substring(0, index), true).getKey(); // Table-key1-key2..
 
 			String arrTableKey = null;
 			//判断第一个key，即Table是否存在，如果存在就提取
@@ -1243,7 +1243,6 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 			else if (childKeys.length == 1 && JSONRequest.isTableKey(childKeys[0])) {  // 可能无需提取，直接返回 rawList 即可
 				arrTableKey = childKeys[0];
 			}
-
 
 			//Table<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			response = new JSONArray();
@@ -1290,7 +1289,15 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 				}
 
 				//key[]:{Table:{}}中key equals Table时 提取Table
-				response.add(getValue(parent, childKeys)); //null有意义
+				/**
+				 * modify by gouchy chen
+				 * 带有key[]格式时，也需要返回所有的字段
+				 */
+				if(childKeys == null || childKeys.length == 0 ||childKeys.length == 1) {
+					response.add(getValue(parent, null)); //null有意义
+				} else {
+					response.add(getValue(parent, childKeys)); //null有意义
+				}
 			}
 
 			//Table>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
