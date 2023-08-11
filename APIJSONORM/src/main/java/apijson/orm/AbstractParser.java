@@ -1293,7 +1293,9 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 				 * modify by gouchy chen
 				 * 带有key[]格式时，也需要返回所有的字段
 				 */
-				if(childKeys == null || childKeys.length == 0 ||childKeys.length == 1) {
+				if(childKeys == null || childKeys.length == 0 ) {
+					response.add(getValue(parent, null)); //null有意义
+				} else if(childKeys.length == 1 && parent.keySet().size() == 1) {
 					response.add(getValue(parent, null)); //null有意义
 				} else {
 					response.add(getValue(parent, childKeys)); //null有意义
@@ -1316,6 +1318,7 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 			            "userId{}@": "User-id[]"
 			        }
 			    }
+			    *
 			}
 			 */
 			if (isExtract) {

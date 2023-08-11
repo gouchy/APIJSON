@@ -5,7 +5,7 @@
 
 	<groupId>com.github.gouchy</groupId>
 	<artifactId>APIJSON</artifactId>
-	<version>6.1.2</version>
+	<version>6.1.10</version>
 	<packaging>jar</packaging>
 
 	<name>APIJSONORM</name>
