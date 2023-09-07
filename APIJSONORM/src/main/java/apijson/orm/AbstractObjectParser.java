@@ -986,10 +986,10 @@ public abstract class AbstractObjectParser implements ObjectParser {
 
             if (isArrayMainTable && position == 0 && rawList != null) {
 
-                isSimpleArray = (functionMap == null || functionMap.isEmpty())
-                        && (customMap == null || customMap.isEmpty())
-                        && (childMap == null || childMap.isEmpty())
-                        && (table.equals(arrayTable));
+//                isSimpleArray = (functionMap == null || functionMap.isEmpty())
+//                        && (customMap == null || customMap.isEmpty())
+//                        && (childMap == null || childMap.isEmpty())
+//                        && (table.equals(arrayTable));
 
                 // APP JOIN 副表时副表返回了这个字段   rawList = (List<JSONObject>) result.remove(AbstractSQLExecutor.KEY_RAW_LIST);
                 String arrayPath = parentPath.substring(0, parentPath.lastIndexOf("[]") + 2);

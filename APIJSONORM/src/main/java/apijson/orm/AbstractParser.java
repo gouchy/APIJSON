@@ -68,7 +68,7 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 
 
 	public static int DEFAULT_QUERY_COUNT = 10;
-	public static int MAX_QUERY_PAGE = 100;
+	public static int MAX_QUERY_PAGE = 1000000000;
 	public static int MAX_QUERY_COUNT = 100;
 	public static int MAX_UPDATE_COUNT = 10;
 	public static int MAX_SQL_COUNT = 200;
