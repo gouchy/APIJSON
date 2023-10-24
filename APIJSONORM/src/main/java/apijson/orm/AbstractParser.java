@@ -457,7 +457,9 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 		queryResultMap = new HashMap<String, Object>();
 
 		Exception error = null;
-		sqlExecutor = createSQLExecutor();
+		// sqlExecutor = createSQLExecutor();
+		// modify by chengaoqi, 此处造成了连接泄露
+		sqlExecutor = getSQLExecutor();
 		onBegin();
 		try {
 			queryDepth = 0;
