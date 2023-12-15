@@ -67,11 +67,11 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 	public static boolean IS_PRINT_REQUEST_ENDTIME_LOG = false;
 
 
-	public static int DEFAULT_QUERY_COUNT = 1000;
+	public static int DEFAULT_QUERY_COUNT = 100000;
 	public static int MAX_QUERY_PAGE = 1000000000;
-	public static int MAX_QUERY_COUNT = 1000;
+	public static int MAX_QUERY_COUNT = 100000;
 	public static int MAX_UPDATE_COUNT = 100000;
-	public static int MAX_SQL_COUNT = 1000;
+	public static int MAX_SQL_COUNT = 100000;
 	public static int MAX_OBJECT_COUNT = 500;
 	public static int MAX_ARRAY_COUNT = 500;
 	public static int MAX_QUERY_DEPTH = 10;
