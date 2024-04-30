@@ -419,6 +419,7 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 					onVerifyContent();
 				}
 			} catch (Exception e) {
+				onClose();
 				return extendErrorResult(requestObject, e, requestMethod, getRequestURL(), isRoot);
 			}
 		}
