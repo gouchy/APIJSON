@@ -2075,7 +2075,9 @@ public abstract class AbstractParser<T extends Object> implements Parser<T>, Par
 		close();
 		verifier = null;
 		sqlExecutor = null;
-		queryResultMap.clear();
+		if(queryResultMap != null) {
+			queryResultMap.clear();
+		}
 		queryResultMap = null;
 	}
 
